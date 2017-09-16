@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+			var num=13;
+			window.onload=function(){
+				var oBt1=document.getElementById('btn1');
+				var oBt2=document.getElementById('btn2');
+				var op=document.getElementById('ptext');
+				oBt1.onclick=function(){
+					num++
+				op.style.fontSize =num+"px";
+				}
+				oBt2.onclick=function(){
+					num--
+				op.style.fontSize =num+"px";
+				}
+			}
+
+
+
+	</script>
+</head>
+<body>
+
+<input type="button" id="btn1" value="+">
+<input type="button" id="btn2" value="-">	
+<hr/>
+<p id="ptext">
+	
+	hello kitty ,babay you konow!
+</p>
+
+
+<fieldset>
+	<style type="text/css">
+		#maincontainer{width:400px;height:350px;position: relative;border:2px solid; }
+		#maincontainer a#priv{display: block;position: absolute;width: 30px;height: 30px;line-height: 30px;text-align: center;left: 0px;border: 1px solid;top:50%;}
+		#maincontainer a#next{display: block;position: absolute;width: 30px;height: 30px;line-height: 30px;text-align: center;right: 0px;border: 1px solid;top:50%;}
+
+		#main{width: 300px;position: absolute;left: 48px;height: 260px;top:40px;}
+.img{width:300px;height: 260px}
+.ptext{position: absolute;bottom:0px;background: #000 ;color: #fff;display: block;width: 100%;height: 30px;line-height: 30px;text-align: center;margin: 0px;}
+.total{position: absolute;top:0px;background: #000;color: #fff;width: 100%;height: 30px;line-height: 30px;text-align: center;margin: 0px;}
+
+	</style>
+
+	<legend>图片切欢</legend>
+     <input type="button" class="btn" value="循环模式">
+     <input type="button" class="btn" value="非循环">
+
+	<div id="maincontainer">
+		<a href="javascript:;" id="priv">priv</a>
+		<a href="javascript:;" id="next">next</a>
+		<div id="main">
+			<p class="ptext" id="ptext">this is first</p>
+			<span id="total" class="total">1/4</span>
+
+			<img src="./images/1.jpg" alt="" class="img" id="img1">
+
+		</div>
+		
+
+	</div>
+
+	<script type="text/javascript">
+	 var imgUrl=['images/1.jpg','images/2.jpg','images/3.jpg'];
+	 var imgDsc=['方框','青涩','静默'];
+	 var num=0;
+	 var total=imgUrl.length;
+	 var img=null, oP=null,oN=null;
+	 var model=true;
+	 var oTotal=document.getElementById('total');
+      var oText=document.getElementById('ptext');
+
+      var btn=document.getElementsByClassName('btn');
+      console.log(btn)
+
+      btn[0].onclick=function(){
+          model=true;
+      }
+
+       btn[1].onclick=function(){
+          model=false;
+      }
+
+	oP=document.getElementById('priv');
+	oN=document.getElementById('next');
+	 img=document.getElementById('img1');
+	
+	function init(){
+		oTotal.innerHTML=(num+1)+"/"+total;
+		img.src=imgUrl[num];
+		//oText.innerHTML=imgDsc[num];
+		//console.log(oText)
+	}
+		 oP.onclick=function(){
+		 	num--;
+		 	if(num==-1){
+		 		if(model){
+　　　　　　　　　　num=total-1;
+		 		}else{
+		 			alert('第一张');
+		 			return ;
+		 		}
+		 	}
+
+		 	init();
+		 }
+		 oN.onclick=function(){
+		 	num++
+		 	if(num==total){
+		 		if(model){
+　　　　　　　　　　num=0;
+		 		}else{
+		 			alert('最后一张');
+		 			return ;
+		 		}
+		 	}
+
+		 	init();
+		 }
+	
+	
+	</script>
+</fieldset>
+
+</body>
+
+</html>

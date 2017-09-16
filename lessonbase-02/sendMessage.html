@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模拟短信发送</title>
+    
+    <style type="text/css">
+    body{padding: 0px;margin: 0px;font-size: 14px}
+    p,img,input,div,*,.*{margin:0;padding:0;}
+.main{width:400px;margin:50px auto;border:1px solid}
+	.main .msg{width:100%;height:500px;overflow:auto;background:#eee;}
+	.icon{width: 32px;height: 32px;border: 1px solid #e2e2e2;vertical-align: middle;margin: 0px;float: left;}
+	#msginput{float:left;width:76%;height: 30px;border: 1px solid #e2e2e2;margin-left: 0px;font-size: 14px;margin: 0px;overflow: hidden;vertical-align: middle;}
+	#senbtn{width: 15%;height: 33px;float: left}
+	.clear{clear:both;}
+	p.right{color: #fff;text-align:right;}
+	p.right img{vertical-align: middle;}
+	p.right span{display: inline;padding:10px 20px;background:#32CD32	;height: 32px;vertical-align: middle; margin-right: 5px;border-radius: 5px}
+	p.left img{vertical-align: middle;}
+	p.left span{display: inline;padding:10px 20px;background:#62b900	;height: 32px;vertical-align: middle; margin-left: 5px;border-radius: 5px}
+	.msgcount{width: 100%;height: 20px;line-height: 20px;text-align: center;background:#e2e2e2;}
+    </style>
+	
+</head>
+<body>
+	<div class="main">
+		<div class="msg" id="msg">
+			<div class="msgcount" id="msgcount">共有0条消息</div>
+		</div>
+
+		<div class="bottom">
+			<img src="" alt="" onclick="choose()" id="avater" class="icon">
+			<input type="text" id="msginput">
+			<input type="button" id="senbtn" value="SEND"> 
+			<div class="clear"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	var num=1;
+
+	var imgUrl=['icon/1.jpg','icon/2.jpg'];//头像列表
+	var msgarr=[],avaterarr=[];
+	var msgcount=0;//消息计数
+	var lastpos="right";
+	function choose(){		 
+		 if(num%2==1){
+		 	document.getElementById('avater').src=imgUrl[0];
+		 }else{
+		 	document.getElementById('avater').src=imgUrl[1];
+		}
+		num++;
+		//console.log(num);
+	}
+	document.getElementById('senbtn').onclick=sendMsg;
+	document.getElementById('avater').src=imgUrl[0];
+	//发送消息获取
+	function sendMsg(){
+		var msg=document.getElementById('msginput').value;
+		if(msg=='') return alert('说点什么吧');
+		var person=document.getElementById('avater').src;
+		msgStore(person,msg)	
+
+		msgShow();	
+		document.getElementById('msginput').value="";
+	}	
+	//将消息放入消息队列中
+	function msgStore(person,msg)
+		{
+      		msgarr.push(msg);
+      		avaterarr.push(person);
+      		msgcount++;
+      		console.log(msgarr,avaterarr)
+		}
+	//消息的渲染，
+	//发送人相同则在同一侧显示
+	function msgShow()
+	{	
+	
+	 var ele=document.createElement('p'); 
+	 var img=document.createElement('img');    
+	     img.setAttribute('src',avaterarr[avaterarr.length-1]);  
+	     img.setAttribute('width',32+"px");
+	 var txt=document.createElement('span');    
+	     txt.innerHTML=msgarr[msgarr.length-1]; 
+	    console.log(avaterarr[avaterarr.length-1]);
+	    console.log(avaterarr[avaterarr.length-2]);
+	     if(avaterarr[avaterarr.length-1]==avaterarr[avaterarr.length-2])
+	     {
+	      if(lastpos=='left'){	     		
+        	 ele.setAttribute('class','left'); 
+        	 ele.appendChild(img); 
+        	  ele.appendChild(txt);    
+       		 lastpos="left";
+	     	}else{
+
+	     	ele.setAttribute('class','right');  
+	     	 ele.appendChild(txt);    
+	     	ele.appendChild(img);   
+	     	lastpos="right";     	  
+	     }
+	     }else{
+	     	if(lastpos=='left'){    
+	     	  ele.setAttribute('class','right');  
+	     	  ele.appendChild(txt);    
+	     	  ele.appendChild(img); 
+	     	  lastpos="right";     	    
+	     	}else{
+	     	 ele.setAttribute('class','left'); 
+        	 ele.appendChild(img); 
+        	  ele.appendChild(txt);    
+       		 lastpos="left";	     	 
+	    	 }
+	     }
+	     
+         //ele.innerHTML=msgarr[0];
+         //消息显示后，弹出消息队列
+         // msgarr.pop(0);
+         // avaterarr.pop(0);
+        // console.log(ele)
+		 document.getElementById('msgcount').innerHTML="共有"+msgcount+"条消息";
+
+		 document.getElementById('msg').appendChild(ele);
+	
+	}	
+	  document.onkeydown=function(event){
+         if(event.code=='Enter')
+         	sendMsg();
+	  }
+	</script>
+</body>
+</html>
