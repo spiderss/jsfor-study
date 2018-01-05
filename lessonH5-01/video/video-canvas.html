@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>video-canvas</title>
+</head>
+<body>
+
+   <video  id="my-video" width="320px;height:240px" controls>
+   	 <source src='../images/test.mp4'>
+   </video>
+   <canvas id="my-canvas" style="width:320px;height:179px"></canvas>
+	<script type="text/javascript">
+      window.addEventListener("load",function(){
+          var vObj=document.getElementById("my-video");
+          var canvas=document.getElementById("my-canvas");
+          var W=canvas.width;
+          var H=canvas.height;
+          var ctx=canvas.getContext('2d');
+           var fps=1000/30;
+           setInterval(function(){
+           ctx.drawImage(vObj,0,0);
+           // var imageData=ctx.getImageData(0,0,W,H);//火狐谷歌不支持
+           // convert_image_to_gray_scale(imageData.data)
+           // ctx.putImageData(imageData,0,0)
+
+           },fps)          		
+      
+      });
+      //
+      function convert_image_to_gray_scale(data)
+      {
+         var len=data.length;
+         var pixels=len/4;
+         for(var i=0;i<pixels;i++)
+         {
+         	var r=data[i*4];
+         	var g=data[i*4+1];
+         	var b=data[i*4+2];
+         	var gray=parseInt((11*r+16*g+5*b)/32);
+         	ata[i*4]=gray;
+         	data[i*4+1]=gray;
+         	data[i*4+2]=gray;
+         }
+       }
+	</script>
+</body>
+</html>
