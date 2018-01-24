@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body onload="startGame()" >
+<canvas id="canvas" width="400" height="300" style="border:1px solid;">浏览器不支持HYML5 canvas元素</canvas>
+	<script type="text/javascript">
+	 var obj=document.getElementById("canvas");
+	 var ctx=obj.getContext('2d');        
+     var W =obj.offsetWidth;
+     var H=obj.offsetHeight;
+     var dicex=10;//骰子水平位子
+     var dicey=0;
+     var dicewidth=100;//骰子面宽度
+     var diceheight=100;
+     var dotrad=6;//圆点半径
+    
+      function startGame()
+      {
+        for(var i=0;i<=5;i++)
+        {
+          dicex = 100*i+10*(i+1);
+          if(i>2)
+          {
+            dicex=(i-3)*100+10*(i-2);
+            dicey=110;
+          }
+           drawFace(i+1);   
+        }
+      }
+     
+
+        
+
+       function drawCircle(radius)
+       {
+       	   var radius=radius||50;
+       		 ctx.beginPath();
+         	 ctx.strokeStyle="rgb(200,0,0)";
+       	    ctx.arc(200,200,radius,0,Math.PI,false);
+       	    ctx.fillStyle="#099485";
+       	    ctx.fill();
+       	    ctx.stroke();
+       }
+       function createRandom()
+       {
+       	 return Math.floor(Math.random()*6)+1;
+       }
+      // n为点数
+      function drawFace(n)
+      {
+      	ctx.lineWidth=3;
+      	ctx.clearRect(dicex,dicey,dicewidth,diceheight);
+      	ctx.strokeRect(dicex,dicey,dicewidth,diceheight)
+
+      	ctx.fillStyle="#000";
+      	switch(n)
+      	{
+      		case 1:
+      			draw1();break;
+      		case 2:
+      			draw2();break;
+      		case 3:
+      			draw2();draw1();break;
+      		case 4:
+      			draw4();break;
+      		case 5:
+      			draw4();draw1();break;
+      		case 6:
+      			draw4();draw2mid();break;
+      	}
+      }
+      
+      function draw1()
+      {      	
+      	var dotx,doty;
+      	ctx.beginPath();
+      	dotx=dicex+ .5*dicewidth;
+      	doty=dicey+ .5*diceheight;
+      	ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+      	ctx.closePath();
+      	ctx.fill();
+      }
+
+      function draw2()
+      {
+      	var dotx,doty;
+      	ctx.beginPath();
+      	dotx=dicex+3*dotrad;//远点位置
+      	doty=dicey+3*dotrad;
+      	//绘制第一个点
+        ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+
+	    dotx=dicex+dicewidth-3*dotrad;//远点位置
+      	doty=dicey+diceheight-3*dotrad;
+      	ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+      	ctx.closePath();
+      	ctx.fill();
+      }
+      
+      function draw4()
+      {
+      	var dotx,doty;
+      	ctx.beginPath();
+      	dotx=dicex+3*dotrad;//远点位置
+      	doty=dicey+3*dotrad;
+      	//绘制第一个点
+        ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+
+	    dotx=dicex+dicewidth-3*dotrad;//远点位置
+      	doty=dicey+diceheight-3*dotrad;
+      	ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+      	ctx.closePath();
+      	ctx.fill();
+       
+         ctx.beginPath();
+         dotx=dicex+3*dotrad;//远点位置
+      	 doty=dicey+diceheight-3*dotrad;
+      	//绘制第一个点
+        ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+        ctx.closePath();
+      	ctx.fill();
+
+
+      	 dotx=dicex+dicewidth-3*dotrad;//远点位置
+      	 doty=dicey+3*dotrad;
+      	//绘制第一个点
+        ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+        ctx.closePath();
+      	ctx.fill();
+
+      }
+
+      function draw2mid()
+      {
+      	var dotx,doty;
+      	ctx.beginPath();
+      	dotx=dicex+3*dotrad;//远点位置
+      	doty=dicey+.5*diceheight;
+      	//绘制第一个点
+        ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+        dotx=dicex+dicewidth-3*dotrad;
+        doty=dicey+.5*diceheight;
+         ctx.arc(dotx,doty,dotrad,0,Math.PI*2,true);
+          ctx.closePath();
+      	ctx.fill();
+      }
+	</script>
+</body>
+</html>

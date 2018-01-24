@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>求跳动</title>
+</head>
+<body onload="init()">
+	 <canvas id="canvas" width="400" height="300">your bowser not support HTML Canvas</canvas>
+	 <script type="text/javascript">
+           var ctx,canvas;
+           var img=new Image();
+              img.src="../images/t.jpg";
+
+
+              var ballRad=40;//定义圆半径
+              var ballX=200;//圆心横坐标
+              var ballY=100;//圆心横坐标
+
+              var ballVX=4;//初始水平位移
+              var ballVY=8;//初始垂直位移
+       
+              var boxX=0,boxY=0,boxWidth=400;boxHeight=300;
+              
+              var boxBoundX=boxWidth+boxX-ballRad;//右边界
+              var boxBoundY=boxHeight+boxY-ballRad;//下边界
+              var inBoxBoundX=boxX+ballRad;//左边界
+              var inBoxBoundY=boxY+ballRad;//上边界
+               
+               //颜色表定义
+                var hue=[[255,0,0],//红
+              			[255,255,0],//黄
+              			[0,255,0],//绿
+              			[0,255,255],//青
+              			[0,0,255],//蓝
+              			[255,0,255],//杨红
+            		  ];
+             var grad,timer;//定义渐变梯度
+            //console.log(img);
+           function init()
+           {
+               canvas=document.getElementById("canvas");
+              var W=canvas.offsetWidth;
+              var H=canvas.offsetHeight;
+             
+              ctx=canvas.getContext('2d');
+             // ctx.drawImage(img,0,0,W,H);//绘制图片背景
+             //生成颜色渐变
+              grad=ctx.createLinearGradient(boxX,boxY,boxX+boxWidth,boxY+boxHeight);    
+              for(var i=0;i<hue.length;i++){
+            	color='rgb('+hue[i][0]+','+hue[i][1]+','+hue[i][2]+')';
+            	grad.addColorStop(i*1/hue.length,color);
+             }
+
+             /*------------------------主要代码--------------------------*/
+                moveBall();  
+               timer= setInterval(moveBall,100);
+               canvas.addEventListener("mouseenter",function(){clearInterval(timer)})
+           }
+        function moveBall()
+        {
+        	ctx.clearRect(boxX,boxY,boxWidth,boxHeight);//清楚画布
+
+        	moveAndCheck();
+        	//绘制一个圆
+            ctx.beginPath();
+            ctx.fillStyle=grad;           
+            //ctx.arc(ballX,ballY,ballRad,0,Math.PI*2,true);
+           ctx.drawImage(img,ballX-ballRad,ballY-ballRad,2*ballRad,2*ballRad);//绘制图片背景
+            ctx.fill();
+            //绘制边框
+
+            ctx.fillStyle="#ccc";
+            ctx.strokeRect(boxX,boxY,boxWidth,boxHeight);
+            // ctx.fillRect(boxX,boxY,ballRad,boxHeight);//左边框
+            // ctx.fillRect(boxX+boxWidth-ballRad,boxY,ballRad,boxHeight);//有边框              
+            // ctx.fillRect(boxX,boxY,boxWidth,ballRad);//上边框
+            // ctx.fillRect(boxX,boxY+boxHeight-ballRad,boxWidth,ballRad); //下边框
+        }
+        function moveAndCheck()
+        {
+        	var nballX=ballX+ballVX;
+        	var nballY=ballY+ballVY;
+        	if(nballX>boxBoundX){//若果大于右边界向左移动
+        		ballVX =-ballVX;
+        		nballX=boxBoundX;
+        	}
+        	if(nballX<inBoxBoundX){      //如果小于左边界向邮移动  		
+        		nballX=inBoxBoundX;
+        		ballVX =-ballVX;
+        	}
+        	if(nballY>boxBoundY)//如果大于上边界 向上移动
+        	{
+        		nballY=boxBoundY;
+        		ballVY=-ballVY;
+        	}
+
+        	if(nballY<inBoxBoundY)//如果大于上边界 向上移动
+        	{
+        		nballY=inBoxBoundY;
+        		ballVY=-ballVY;
+        	}
+
+        	ballX=nballX;
+        	ballY=nballY;        	
+        }
+	 </script>
+</body>
+</html>
